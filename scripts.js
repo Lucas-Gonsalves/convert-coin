@@ -10,6 +10,7 @@ const amountInput = document.getElementById('amount')
 const currencySelector = document.getElementById('currency')
 const footer = document.querySelector('main footer')
 const descriptionSpan = document.getElementById('description')
+const resultH1 = document.getElementById('result')
 
 // Manipulationg the input amount to receive only numbers
 amountInput.addEventListener('input', () => {
@@ -27,11 +28,21 @@ function formatCurrencyBRL(value) {
 
 // Function to convert the coin
 function convertCurrency(amount, price, symbol) {
-  const priceFormated = formatCurrencyBRL(price)
-
   try {
     // Displaying the quotation of the coin selected
-    descriptionSpan.textContent = `${symbol} 1 = ${priceFormated}`
+    descriptionSpan.textContent = `${symbol} 1 = ${formatCurrencyBRL(price)}`
+
+    // Calculate the total
+    let total = amount * price
+
+    if(isNaN(total)) {
+      return alert('Please, enter a value corresponding to convert.')
+    }
+
+    total = formatCurrencyBRL(total).replace('R$', '')
+
+    // Displaying the total result
+    resultH1.textContent = `${total} Reais`
 
     // Applies the class that displays the footer to show the result
     footer.classList.add('show-result')
